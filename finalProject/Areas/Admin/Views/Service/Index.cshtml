@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+@model List<ServiceGetDto>
+<div>
+    <a asp-action="Create" asp-controller="Service">
+        <i class="fa-solid fa-plus"></i>
+    </a>
+</div>
+<div class="row">
+    <div class=" grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Title</th>
+                                <th>Description</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr>
+                                        <td>@item.Id</td>
+                                        <td>@item.Title</td>
+                                        <td>@item.Description</td>
+                                        <td><a asp-action="Update" asp-controller="service" asp-route-id="@item.Id"><i class="fa-solid fa-pen"></i></a></td>
+                                        <td><a asp-action="Delete" asp-controller="service" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

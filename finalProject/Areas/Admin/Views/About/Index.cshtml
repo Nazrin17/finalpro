@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+@model AboutGetDto
+<div>
+    <a asp-action="Create" asp-controller="About">
+        <i class="fa-solid fa-plus"></i>
+    </a>
+</div>
+<div class="row">
+    <div class=" grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Image</th>
+                                <th>Setting</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                <tr>
+                                    <td>@Model.Id</td>
+                                    <td>@Model.Title</td>
+                                    <td>@Model.Description</td>
+                                    <td><img src="~/assets/img/@Model.Image" /></td>
+                                    <td><a asp-action="Update" asp-controller="about" asp-route-id="@Model.Id"><i class="fa-solid fa-pen"></i></a></td>
+                                    <td><a asp-action="Delete" asp-controller="about" asp-route-id="@Model.Id"><i class="fa-solid fa-trash"></i></a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

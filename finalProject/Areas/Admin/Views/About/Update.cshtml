@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Update";
+}
+@model AboutUpdateDto
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="form-group">
+                        <input hidden asp-for="@Model.getDto.Id" />
+                        <label>Name</label>
+                        <input type="text" class="form-control" asp-for="@Model.aboutPost.Title" value="@Model.getDto.Title" placeholder="Name">
+                        <span asp-validation-for="@Model.aboutPost.Title"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Position</label>
+                        <input type="text" class="form-control" asp-for="@Model.aboutPost.Description" value="@Model.getDto.Description" placeholder="Position">
+                        <span asp-validation-for="@Model.aboutPost.Description"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Image</label>
+                        <input class="form-control" asp-for="@Model.aboutPost.formFile" placeholder="Image">
+                        <span asp-validation-for="@Model.aboutPost.formFile"></span>
+                    </div>
+                    @for (int i = 0; i < 3; i++)
+                    {
+                        <div class="form-group">
+                            <label>Button</label>
+                            <input class="form-control" asp-for="@Model.aboutPost.Buttons[i].Icon" value="@Model.getDto.Buttons[i].Icon" placeholder="Icon">
+                            <input class="form-control" asp-for="@Model.aboutPost.Buttons[i].Name" value="@Model.getDto.Buttons[i].Name" placeholder="Name">
+                            <span asp-validation-for="@Model.aboutPost.Buttons"></span>
+                        </div>
+                    }
+                    <button type="submit" class="btn btn-primary me-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
