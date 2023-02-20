@@ -1,6 +1,11 @@
 ﻿using AutoMapper;
 using Business.Services.Intefaces;
+using Business.Utilites.Constants;
+using Core.Utilities;
+using Core.Utilities.Exceptions;
+using Core.Utilities.Extentions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +19,14 @@ namespace Business.Services.Implementations
         private readonly IAboutRepository _repository;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _env;
+
+        public AboutManager(IAboutRepository repository, IMapper mapper, IWebHostEnvironment env)
+        {
+            _repository = repository;
+            _mapper = mapper;
+            _env = env;
+        }
+
         public async Task CreateAsync(AboutPostDto postDto)
         {
             //if (!postDto.formFile.ContentType.Contains("image"))
@@ -21,13 +34,7 @@ namespace Business.Services.Implementations
             //    return postDto;
             //}
             About about = _mapper.Map<About>(postDto);
-            string imagename = Guid.NewGuid() + postDto.formFile.FileName;
-            string path = Path.Combine(_env.WebRootPath, "assets/img", imagename);
-            using (FileStream file = new FileStream(path, FileMode.Create))
-            {
-                postDto.formFile.CopyTo(file);
-            }
-            about.Image = imagename;
+            about.Image = postDto.formFile.FileCreate(_env.WebRootPath, "assets/img");
             foreach (var item in postDto.Buttons)
             {
                 about.Buttons.Add(item);
@@ -38,13 +45,14 @@ namespace Business.Services.Implementations
         public async Task DeleteAsync(int id)
         {
             About about = await _repository.Get(a => a.Id == id, "Buttons");
-        //    Helper.RemoveFile(_env.WebRootPath, "assets/img", about.Image);
+            Helper.FileDelete(_env.WebRootPath, "assets/img", about.Image);
             _repository.Delete(about);
         }
 
         public async Task<AboutGetDto> Get()
         {
             About about = await _repository.Get("Buttons");
+           // if(about == null) { throw new NotFoundException(Messages.NotFound);};
             AboutGetDto getDto=_mapper.Map<AboutGetDto>(about);
             return getDto;
         }
@@ -59,13 +67,8 @@ namespace Business.Services.Implementations
                 //    ModelState.AddModelError("Formfile", "Please send image");
                 //    return View(updateDto);
                 //}
-                string imagename = Guid.NewGuid() + updateDto.aboutPost.formFile.FileName;
-                string path = Path.Combine(_env.WebRootPath, "assets/img", imagename);
-                using (FileStream file = new FileStream(path, FileMode.Create))
-                {
-                    updateDto.aboutPost.formFile.CopyTo(file);
-                }
- //               Helper.RemoveFile(_env.WebRootPath, "assets/img", about.Image);
+                string imagename = updateDto.aboutPost.formFile.FileCreate(_env.WebRootPath, "assets/img");
+                Helper.FileDelete(_env.WebRootPath, "assets/img", about.Image);
                 about.Image = imagename;
             }
             about.Title = updateDto.aboutPost.Title;

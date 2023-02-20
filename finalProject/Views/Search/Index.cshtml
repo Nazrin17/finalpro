@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+@model DoctorSearchDto
+<!-- Search Start -->
+<div class="container-fluid pt-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+            <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Find A Doctor</h5>
+            <h1 class="display-4 mb-4">Find A Healthcare Professionals</h1>
+            <h5 class="fw-normal">Duo ipsum erat stet dolor sea ut nonumy tempor. Tempor duo lorem eos sit sed ipsum takimata ipsum sit est. Ipsum ea voluptua ipsum sit justo</h5>
+        </div>
+        <form class="forms-sample" method="post">
+            <div class="mx-auto" style="width: 100%; max-width: 600px;">
+                <div class="input-group">
+                    <input type="text" class="form-control border-primary w-50" asp-for="@Model.postDto.Name" placeholder="Please enter doctor's name">
+                    <button asp-action="Result" asp-controller="Search" id="btn" type="submit" class="btn btn-dark border-0 w-25">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Search End -->
+<!-- Search Result Start -->
+<div class="container-fluid py-5">
+    <div class="container">
+        @if (Model.getDtos != null)
+        {
+            <div class="row g-5 workproducts">
+                <partial name="_TeamPartialView" model="Model.getDtos" />
+            </div>
+            <input hidden btn class="length" value="@Model.count" />
+
+            <div class="col-12 text-center">
+                <button class="btn btn-primary py-3 px-5 loadmore">Load More</button>
+            </div>
+
+        }
+    </div>
+</div>
+<!-- Search Result End -->
+<script>
+    const button = document.querySelector(".loadmore")
+    button.addEventListener("click", Loadmore)
+    const count = document.querySelector(".length").value
+    console.log(count)
+
+    function Loadmore() {
+        let productscount = ($(".workproducts").children().length)
+        console.log(productscount)
+        fetch("/Search/LoadMore?skip=" + productscount)
+            .then(response => response.text())
+            .then(text => {
+                $(".workproducts").append(text)
+                let lastproductcount = ($(".workproducts").children().length)
+                console.log(lastproductcount)
+
+                if (lastproductcount == count) {
+                    $(".loadmore").remove()
+                }
+            })
+    }
+</script>

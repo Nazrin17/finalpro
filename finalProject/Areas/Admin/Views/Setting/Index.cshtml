@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+@model SettingGetDto
+<div class="row">
+    <div class=" grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Address</th>
+                                <th>Email</th>
+                                <th>Setting</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                <tr>
+                                    <td>@Model.Id</td>
+                                    <td>@Model.Address</td>
+                                    <td>@Model.Email</td>
+                                    <td><a asp-action="Update" asp-controller="setting" asp-route-id="@Model.Id"><i class="fa-solid fa-pen"></i></a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

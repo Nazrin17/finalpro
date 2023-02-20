@@ -1,10 +1,11 @@
 ﻿
 using AutoMapper;
 using Business.Services.Intefaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [Area("admin")]
-
+[Authorize(Roles = "admin")]
 public class AboutController : Controller
 {
     private readonly IAboutService _service;
@@ -21,6 +22,10 @@ public class AboutController : Controller
     public async Task<IActionResult> Index()
     {
         AboutGetDto getDto = await _service.Get();
+        if (getDto == null)
+        {
+            return View();
+        }
         return View(getDto);
     }
     public IActionResult Create()

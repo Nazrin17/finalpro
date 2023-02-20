@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+@model ContactGetDto
+
+<!-- Contact Start -->
+<div class="container-fluid pt-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+            <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5">Any Questions?</h5>
+            <h1 class="display-4">Please Feel Free To Contact Us</h1>
+        </div>
+        <div class="row g-5 mb-5">
+            <div class="col-lg-4">
+                <div class="bg-light rounded d-flex flex-column align-items-center justify-content-center text-center" style="height: 200px;">
+                    <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle mb-4" style="width: 100px; height: 70px; transform: rotate(-15deg);">
+                        <i class="fa fa-2x fa-location-arrow text-white" style="transform: rotate(15deg);"></i>
+                    </div>
+                    <h6 class="mb-0">@Model.Setting.Address</h6>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="bg-light rounded d-flex flex-column align-items-center justify-content-center text-center" style="height: 200px;">
+                    <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle mb-4" style="width: 100px; height: 70px; transform: rotate(-15deg);">
+                        <i class="fa fa-2x fa-phone text-white" style="transform: rotate(15deg);"></i>
+                    </div>
+                    <h6 class="mb-0">@Model.Setting.Phone</h6>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="bg-light rounded d-flex flex-column align-items-center justify-content-center text-center" style="height: 200px;">
+                    <div class="d-flex align-items-center justify-content-center bg-primary rounded-circle mb-4" style="width: 100px; height: 70px; transform: rotate(-15deg);">
+                        <i class="fa fa-2x fa-envelope-open text-white" style="transform: rotate(15deg);"></i>
+                    </div>
+                    <h6 class="mb-0">@Model.Setting.Email</h6>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12" style="height: 500px;">
+                <div class="position-relative h-100">
+                    <!-- Start Map -->
+                    <div id="mapid" style="width: 100%; height: 300px;"></div>
+                    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+                    <!-- Ena Map -->
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center position-relative" style="margin-top: -200px; z-index: 1;">
+            <div class="col-lg-8">
+                <div class="bg-white rounded p-5 m-5 mb-0">
+                    <form method="post">
+                        <div asp-validation-summary="ModelOnly"></div>
+                        <div class="row g-3">
+                            <div class="col-12 col-sm-6">
+                                <input type="text" asp-for="@Model.postDto.UserName" class="form-control bg-light border-0" placeholder="Your Name" style="height: 55px;">
+                            </div>
+
+                            <div class="col-12 col-sm-6">
+                                <input type="email" asp-for="@Model.postDto.Email" class="form-control bg-light border-0" placeholder="Your Email" style="height: 55px;">
+                            </div>
+                            <div class="col-12">
+                                <input type="text" asp-for="@Model.postDto.Subject" class="form-control bg-light border-0" placeholder="Subject" style="height: 55px;">
+                            </div>
+                            <div class="col-12">
+                                <textarea class="form-control bg-light border-0" asp-for="@Model.postDto.Letter" rows="5" placeholder="Message"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" asp-action="Index" asp-controller="Message" id="btn" type="button">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    var mymap = L.map('mapid').setView([40.401782662706054, 49.86628925146658, 7], 7);
+
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+        maxZoom: 18,
+        attribution: 'Zay Telmplte | Template Design by <a href="https://templatemo.com/">Templatemo</a> | Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1
+    }).addTo(mymap);
+
+    L.marker([40.39393881076876, 49.88088046926445, 7]).addTo(mymap)
+        .bindPopup("We are here <br />Location.").openPopup();
+
+    mymap.scrollWheelZoom.disable();
+    mymap.touchZoom.disable();
+
+    var send_btn = document.getElementById("btn")
+
+    send_btn.addEventListener("click", function (e) {
+        e.preventDefault()
+        var username = document.getElementById("postDto_UserName")
+        var subject = document.getElementById("postDto_Subject")
+        var email = document.getElementById("postDto_Email")
+        var letter = document.getElementById("postDto_Letter")
+        $.ajax({
+            url: "/message/send",
+            data: {
+                UserName: username.value,
+                Subject: subject.value,
+                Email: email.value,
+                Letter: letter.value
+            },
+            dataType: 'json',
+            type: "post",
+            success: function (data) {
+                if (data.status == 200) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        title: 'success',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    username.value = ""
+                    subject.value = ""
+                    email.value = ""
+                    letter.value = ""
+                } else {
+                    Swal.fire({
+                        title: data,
+                        showClass: {
+                            popup: 'animate__animated animate__fadeInDown'
+                        },
+                        hideClass: {
+                            popup: 'animate__animated animate__fadeOutUp'
+                        }
+                    })
+                }
+            }
+        })
+    })
+</script>
+<!-- Contact End -->

@@ -1,0 +1,94 @@
+﻿
+@{
+    ViewData["Title"] = "Update";
+}
+
+@model SettingUpdateDto
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="form-group">
+                        <input hidden asp-for="@Model.getDto.Id" />
+                        <label>email</label>
+                        <input type="email" class="form-control" asp-for="@Model.postDto.Email" value="@Model.getDto.Email" placeholder="Email">
+                        <span asp-validation-for="@Model.postDto.Email"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" class="form-control" asp-for="@Model.postDto.Phone" value="@Model.getDto.Phone" placeholder="Phone">
+                        <span asp-validation-for="@Model.postDto.Phone"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" class="form-control" asp-for="@Model.postDto.Address" value="@Model.getDto.Address" placeholder="address">
+                        <span asp-validation-for="@Model.postDto.Address"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Logo</label>
+                        <input type="text" class="form-control" asp-for="@Model.postDto.Logo" value="@Model.getDto.Logo" placeholder="Logo">
+                        <span asp-validation-for="@Model.postDto.Logo"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>LogoIcon</label>
+                        <input type="text" class="form-control" asp-for="@Model.postDto.LogoIcon" value="@Model.getDto.LogoIcon" placeholder="LogoIcon">
+                        <span asp-validation-for="@Model.postDto.LogoIcon"></span>
+                    </div>
+                    <div class="form-row col-12" id="social">
+                        @foreach (var item in Model.getDto.Icons)
+                        {
+                            <div class="form-group col-md-6" data-index="0">
+                                <label for="postDto_Tags">Social Icon</label>
+                                <input class="form-control" type="text" name="postDto.Tags" value="@item.IconTag">
+                                <span class="text-danger field-validation-valid" data-valmsg-for="postDto.Tags" data-valmsg-replace="true"></span>
+                                <label for="postDto_Urls"> Social Url</label>
+                                <input class="form-control" type="text" name="postDto.Urls" value="@item.IconUrl">
+                                <span class="text-danger field-validation-valid" data-valmsg-for="postDto.Urls" data-valmsg-replace="true"></span>
+                                <span><i style="cursor:pointer" class="fas fa-minus delete-feature"> </i></span>
+                            </div>
+                        }
+                    </div>
+                    <div class="form-row justify-content-center">
+                        <div class="form-group">
+                            <button data-nextIndex="2" class="add-social btn btn-primary">+</button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary me-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+
+    $(document).ready(function () {
+        $(document).on("click", ".add-social", function (e) {
+            e.preventDefault();
+            var nextIndex = $(this).attr("data-nextIndex");
+            var inputGroup = `
+                                            <div class="form-group col-md-6" data-index="0">
+                                            <label for="postDto_Tags">Social Icon</label>
+                                            <input class="form-control" type="text" name="postDto.Tags" value="">
+                                            <span class="text-danger field-validation-valid" data-valmsg-for="postDto.Tags" data-valmsg-replace="true"></span>
+                                            <label for="postDto_Urls"> Social Url</label>
+                                            <input class="form-control" type="text" name="postDto.Urls" value="">
+                                            <span class="text-danger field-validation-valid" data-valmsg-for="postDto.Urls" data-valmsg-replace="true"></span>
+                                            <span><i style="cursor:pointer" class="fas fa-minus delete-feature"> </i></span>
+                                        </div>
+                        `
+            $("#social").append($(inputGroup))
+            nextIndex = +nextIndex + 1;
+            console.log(nextIndex)
+            $(this).attr("data-nextIndex", nextIndex)
+        })
+        $(document).on("click", ".delete-feature", function (e) {
+            e.preventDefault();
+            $(this).parents(".form-group").empty();
+        })
+    })
+</script>
+

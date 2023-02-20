@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "Next";
+}
+
+@model ReservationDto
+<div class="container-fluid bg-primary my-5 py-5">
+    <div class="container py-5">
+        <div class="row gx-5">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="mb-4">
+                    <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Appointment</h5>
+                    <h1 class="display-4">Make An Appointment For Your Family</h1>
+                </div>
+                <p class="text-white mb-5">Eirmod sed tempor lorem ut dolores. Aliquyam sit sadipscing kasd ipsum. Dolor ea et dolore et at sea ea at dolor, justo ipsum duo rebum sea invidunt voluptua. Eos vero eos vero ea et dolore eirmod et. Dolores diam duo invidunt lorem. Elitr ut dolores magna sit. Sea dolore sanctus sed et. Takimata takimata sanctus sed.</p>
+                <a class="btn btn-dark rounded-pill py-3 px-5 me-3" href="">Find Doctor</a>
+                <a class="btn btn-outline-dark rounded-pill py-3 px-5" href="">Read More</a>
+            </div>
+            <div class="col-lg-6">
+                <div class="bg-white text-center rounded p-5">
+                    <h1 class="mb-4">Book An Appointment</h1>
+                    <form method="post">
+                        <div class="row g-3">
+@*                            <div class="col-12 col-sm-6">
+                                <div>
+                                    <input asp-for="@Model.Date" type="text"
+                                           class="form-control bg-light "
+                                           placeholder="ex:12.07(day.month)" style="height: 55px;">
+                                </div>
+                            </div>*@
+                            <div class="col-12 col-sm-6">
+                                <div class="time" id="time" data-target-input="nearest">
+                                    <div class="nav-item dropdown">
+                                        <a href="#" class="nav-link dropdown-toggle text-black-50" data-bs-toggle="dropdown">Time</a>
+                                        <div class="dropdown-menu m-0">
+                                          
+                                            @foreach (var rez in Model.getDto.rezervs)
+                                            {
+                                                <a asp-route-time="@rez.Time"  asp-action="Rezerv" asp-controller="Team"  asp-route-user="@Model.UserEmail" asp-route-id="@Model.getDto.Id" class="dropdown-item @(rez.Busy?"disabled":"")">@rez.Time</a>
+                                            }
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @*    <div class="col-12">
+                                <button class="btn btn-primary w-100 py-3" asp-action="Rezerv" asp-controller="Team" asp-route-id="@Model.Id" type="submit">Make An Appointment</button>
+                            </div>*@
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

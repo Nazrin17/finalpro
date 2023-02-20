@@ -1,25 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
+﻿using AutoMapper;
+using Business.Services.Intefaces;
+using Microsoft.AspNetCore.Mvc;
 
-namespace finalProject.Controllers
+namespace finaProject.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IHomeService _service;
+
+        public HomeController( IHomeService service)
         {
-            _logger = logger;
+            _service = service;
         }
 
-        public IActionResult Index()
+        public  async Task<IActionResult> Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            HomeGetDto getdto = await _service.Get();
+            if(getdto == null)
+            {
+                return View();
+            }
+            HomeSearchDto searchDto = new HomeSearchDto{ getDto = getdto };
+            return View(searchDto);
         }
     }
 }

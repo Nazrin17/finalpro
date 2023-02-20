@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+@model DoctorGetDto
+<div class="row">
+    <div class=" grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th colspan="6" style="text-align:center">Reservation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                <tr>
+                                    @foreach (var rez in Model.rezervs)
+                                    {
+                                        <td>@rez.Time</td>
+                                        <td><a style="text-decoration:none " asp-area="Doctor" asp-action="Rezerv" asp-controller="Rezervation" asp-route-user="@rez.UserEmail" asp-route-id="@Model.Id" asp-route-time="@rez.Time"><p style="color:@(rez.Busy ? "red" : "dimgray")">@(rez.Busy ? "reserved" : "unreserved")</p></a></td>
+                                    }
+                                </tr>
+                                <a asp-action="Okei" asp-controller="Rezervation" onclick=" " class="btn"><i class="fa-solid fa-check"> </i></a>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

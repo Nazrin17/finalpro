@@ -157,6 +157,9 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -177,6 +180,31 @@ namespace DAL.Migrations
                     b.HasIndex("PositionId");
 
                     b.ToTable("Doctors");
+                });
+
+            modelBuilder.Entity("Entities.Concrete.Models.ResHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("DoctorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DoctorId");
+
+                    b.ToTable("ResHistory");
                 });
 
             modelBuilder.Entity("Home", b =>
@@ -545,6 +573,15 @@ namespace DAL.Migrations
                     b.Navigation("Position");
                 });
 
+            modelBuilder.Entity("Entities.Concrete.Models.ResHistory", b =>
+                {
+                    b.HasOne("Doctor", "Doctor")
+                        .WithMany("history")
+                        .HasForeignKey("DoctorId");
+
+                    b.Navigation("Doctor");
+                });
+
             modelBuilder.Entity("Icon", b =>
                 {
                     b.HasOne("Doctor", "Doctor")
@@ -631,6 +668,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("Doctor", b =>
                 {
                     b.Navigation("Icons");
+
+                    b.Navigation("history");
 
                     b.Navigation("rezervs");
                 });

@@ -2,6 +2,8 @@
 using Business.Services.Intefaces;
 using Core.Entities.Concrete;
 using DAL;
+using DAL.Repositories.Implementations;
+using DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -52,8 +54,17 @@ namespace Business.Utilites.Extentions
             services.AddScoped<ISettingRepository, SettingRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddScoped <IPositionRepository, PositionRepository>();
+            services.AddScoped <IDoctorRepository, DoctorRepository>();
+            services.AddScoped <IResRepository, ResRepository>();
             services.AddScoped<IServiceService, ServiceManager>();
             services.AddScoped<IAboutService, AboutManager>();
+            services.AddScoped<IPositionService, PositionManager>();
+            services.AddScoped<IDoctorService, DoctorManager>();
+            services.AddScoped<IHomeService, HomeManager>();
+            services.AddScoped<IMessageService, MessageManager>();
+            services.AddScoped<ISettingService, SettingManager>();
+            services.AddScoped<IReservationService, ReservationManager>();
+            services.AddScoped<IResHistoryService, ResHistoryManager>();
             return services;
         }
     }

@@ -2,9 +2,12 @@
 
 using AutoMapper;
 using Business.Services.Intefaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 [Area("admin")]
+[Authorize(Roles = "admin")]
 
 public class ServiceController : Controller
 {

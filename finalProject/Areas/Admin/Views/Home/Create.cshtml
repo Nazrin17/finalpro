@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}
+@model HomePostDto
+<div class="row">
+    <div class="grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" asp-for="Title" placeholder="Title">
+                        <span asp-validation-for="Title"></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Position</label>
+                        <input type="text" class="form-control" asp-for="Slogan" placeholder="Slogan">
+                        <span asp-validation-for="Slogan"></span>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Image</label>
+                        <input class="form-control" asp-for="formFile" placeholder="Image">
+                        <span asp-validation-for="formFile"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary me-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

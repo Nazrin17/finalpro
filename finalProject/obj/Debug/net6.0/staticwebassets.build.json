@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "IX3mO0K9jOAc72D6yXtslzfb055NJMi0hOS6/v5Pip0=",
+  "Hash": "26zIH6XZk6iQltj2OikQQWlfaORSpn/952M9BgF4XLU=",
   "Source": "finalProject",
   "BasePath": "_content/finalProject",
   "Mode": "Default",
@@ -2261,6 +2261,23 @@
       "OriginalItemSpec": "wwwroot\\assets\\img\\1c85df50-37b3-4921-91ea-169322177121about.jpg"
     },
     {
+      "Identity": "C:\\Users\\Nurlan\\source\\repos\\finalProject\\finalProject\\wwwroot\\assets\\img\\1c8c1835-e3b7-4717-a326-69189244f2e4hero.jpg",
+      "SourceId": "finalProject",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Nurlan\\source\\repos\\finalProject\\finalProject\\wwwroot\\",
+      "BasePath": "_content/finalProject",
+      "RelativePath": "assets/img/1c8c1835-e3b7-4717-a326-69189244f2e4hero.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\img\\1c8c1835-e3b7-4717-a326-69189244f2e4hero.jpg"
+    },
+    {
       "Identity": "C:\\Users\\Nurlan\\source\\repos\\finalProject\\finalProject\\wwwroot\\assets\\img\\329ff338-84ee-4573-a5fd-e0f29e68152ctestimonial-3.jpg",
       "SourceId": "finalProject",
       "SourceType": "Discovered",
@@ -2395,6 +2412,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\img\\8a5118da-64a2-4e7c-b6f5-d70f9b371d77price-2.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Nurlan\\source\\repos\\finalProject\\finalProject\\wwwroot\\assets\\img\\96555478-37f2-4418-a407-782fca9246ecprice-4.jpg",
+      "SourceId": "finalProject",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Nurlan\\source\\repos\\finalProject\\finalProject\\wwwroot\\",
+      "BasePath": "_content/finalProject",
+      "RelativePath": "assets/img/96555478-37f2-4418-a407-782fca9246ecprice-4.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\img\\96555478-37f2-4418-a407-782fca9246ecprice-4.jpg"
     },
     {
       "Identity": "C:\\Users\\Nurlan\\source\\repos\\finalProject\\finalProject\\wwwroot\\assets\\img\\a89dc5a5-9f9e-48ab-b9e9-0bb823ea5d92price-3.jpg",
@@ -2550,6 +2584,23 @@
       "OriginalItemSpec": "wwwroot\\assets\\img\\c95d864c-60ea-4a17-b40f-acc9d1c9df16about.jpg"
     },
     {
+      "Identity": "C:\\Users\\Nurlan\\source\\repos\\finalProject\\finalProject\\wwwroot\\assets\\img\\cf793677-156a-4b54-9f2b-cc1c46aa7fcfhero.jpg",
+      "SourceId": "finalProject",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Nurlan\\source\\repos\\finalProject\\finalProject\\wwwroot\\",
+      "BasePath": "_content/finalProject",
+      "RelativePath": "assets/img/cf793677-156a-4b54-9f2b-cc1c46aa7fcfhero.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\img\\cf793677-156a-4b54-9f2b-cc1c46aa7fcfhero.jpg"
+    },
+    {
       "Identity": "C:\\Users\\Nurlan\\source\\repos\\finalProject\\finalProject\\wwwroot\\assets\\img\\download.png",
       "SourceId": "finalProject",
       "SourceType": "Discovered",
@@ -2599,6 +2650,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\img\\f6615daf-d399-473e-a908-884b12d63098price-3.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Nurlan\\source\\repos\\finalProject\\finalProject\\wwwroot\\assets\\img\\f7523a44-916b-4d7b-8639-d34b39db00beteam-3.jpg",
+      "SourceId": "finalProject",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Nurlan\\source\\repos\\finalProject\\finalProject\\wwwroot\\",
+      "BasePath": "_content/finalProject",
+      "RelativePath": "assets/img/f7523a44-916b-4d7b-8639-d34b39db00beteam-3.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\img\\f7523a44-916b-4d7b-8639-d34b39db00beteam-3.jpg"
     },
     {
       "Identity": "C:\\Users\\Nurlan\\source\\repos\\finalProject\\finalProject\\wwwroot\\assets\\img\\hero.jpg",

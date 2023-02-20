@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+@model HomeSearchDto
+<!-- Hero Start -->
+@if (Model != null)
+{
+
+    <div class="container-fluid bg-primary py-5 mb-5 hero-header">
+        <div class="container py-5">
+            <div class="row justify-content-start">
+                <div class="col-lg-8 text-center text-lg-start">
+                    <h5 class="d-inline-block text-primary text-uppercase border-bottom border-5" style="border-color: rgba(256, 256, 256, .3) !important;">@Model.getDto.Title</h5>
+                    <h1 class="display-1 text-white mb-md-4">@Model.getDto.Slogan</h1>
+                    <div class="pt-2">
+                        <a asp-action="Index" asp-controller="Search"
+                       class="btn btn-light rounded-pill py-md-3 px-md-5 mx-2">Find Doctor</a>
+                        <a asp-action="Index" asp-controller="Pricing" class="btn btn-outline-light rounded-pill py-md-3 px-md-5 mx-2">Appointment</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- Hero End -->
+<!-- About Start -->
+@await Component.InvokeAsync("About");
+<!-- About End -->
+<!-- Services Start -->
+@await Component.InvokeAsync("Service");
+<!-- Services End -->
+<!-- Team Start -->
+@await Component.InvokeAsync("Team");
+<!-- Team End -->
+<!-- Search Start -->
+<div class="container-fluid bg-primary my-5 py-5">
+    <div class="container py-5">
+        <div class="text-center mx-auto mb-5" style="max-width: 500px;">
+            <h5 class="d-inline-block text-white text-uppercase border-bottom border-5">Find A Doctor</h5>
+            <h1 class="display-4 mb-4">Find A Healthcare Professionals</h1>
+            <h5 class="text-white fw-normal">Duo ipsum erat stet dolor sea ut nonumy tempor. Tempor duo lorem eos sit sed ipsum takimata ipsum sit est. Ipsum ea voluptua ipsum sit justo</h5>
+        </div>
+        <div class="mx-auto" style="width: 100%; max-width: 500px;">
+            <div class="input-group">
+                @*                <select class="form-select border-primary w-25" style="height: 60px;">
+                <option selected>Department</option>
+                <option value="1">Department 1</option>
+                <option value="2">Department 2</option>
+                <option value="3">Department 3</option>
+                </select>*@
+                <form class="forms-sample" method="post">
+                    <div class="mx-auto" style="width: 100%; max-width: 600px;">
+                        <div class="input-group">
+                            <input type="text" class="form-control border-primary" asp-for="@Model.searchDto.postDto.Name" placeholder="Please enter doctor's name">
+                            <button asp-action="Result" asp-controller="Search" type="submit" class="btn btn-dark border-0 w-25">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search End -->
+<!-- Testimonial Start -->
+@await Component.InvokeAsync("Testimonial");
+<!-- Testimonial End -->>
