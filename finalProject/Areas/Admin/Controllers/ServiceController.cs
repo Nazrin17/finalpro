@@ -21,6 +21,7 @@ public class ServiceController : Controller
     public async Task<IActionResult> Index()
     {
         List<ServiceGetDto> getDtos = await _service.GetAllAsync();
+        if (getDtos is null) return View();
         return View(getDtos);
     }
     public IActionResult Create()
@@ -41,22 +42,27 @@ public class ServiceController : Controller
     {
 
         ServiceGetDto getDto =  await _service.GetbyId(id);
+        if (getDto is null) return NotFound();
         ServiceUpdateDto updateDto = new ServiceUpdateDto { getDto = getDto };
         return View(updateDto);
     }
     [HttpPost]
     public async Task<IActionResult> Update(ServiceUpdateDto updateDto)
     {
+        updateDto.getDto = await _service.GetbyId(updateDto.getDto.Id);
         if (!ModelState.IsValid)
         {
             return View(updateDto);
         }
-        await _service.UpdateAsync(updateDto);
+
+       var result= await _service.UpdateAsync(updateDto);
+        if (!result) return NotFound();
         return RedirectToAction(nameof(Index));
     }
     public async Task<IActionResult> Delete(int id)
     {
-         await _service.DeleteAsync(id);
+       var result=  await _service.DeleteAsync(id);
+        if(!result) return NotFound();  
         return RedirectToAction(nameof(Index));
     }
 }

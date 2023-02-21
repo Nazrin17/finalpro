@@ -45,9 +45,10 @@ public class HomeController : Controller
         await _service.CreateAsync(postDto);
         return RedirectToAction(nameof(Index));
     }
-    public async Task<IActionResult> Update(int id)
+    public async Task<IActionResult> Update()
     {
         HomeGetDto getDto = await _service.Get();
+        if (getDto == null) return View();
         HomeUpdateDto updateDto = new HomeUpdateDto { getDto = getDto };
         return View(updateDto);
     }
@@ -59,12 +60,14 @@ public class HomeController : Controller
         {
             return View(updateDto);
         }
-        await _service.UpdateAsync(updateDto);
+        var result = await _service.UpdateAsync(updateDto);
+        if (!result) return View(updateDto);
         return RedirectToAction(nameof(Index));
     }
     public async Task<IActionResult> Delete(int id)
     {
-        await _service.DeleteAsync(id);
+       var result= await _service.DeleteAsync(id);
+        if (!result) return NotFound();
         return RedirectToAction(nameof(Index));
 
     }

@@ -11,7 +11,7 @@ namespace Business.Services.Intefaces
         Task<List<ServiceGetDto>> GetAllAsync();
         Task<ServiceGetDto> GetbyId(int id);
         Task CreateAsync(ServicePostDto postDto);
-        Task UpdateAsync(ServiceUpdateDto updateDto);
-        Task DeleteAsync(int id);
+        Task<bool> UpdateAsync(ServiceUpdateDto updateDto);
+        Task<bool> DeleteAsync(int id);
     }
 }

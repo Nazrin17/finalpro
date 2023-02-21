@@ -53,6 +53,29 @@ namespace Business.Services.Implementations
                         setting.Icons.Remove(setting.Icons[i]);
                     }
                 }
+                if(icons.Count> setting.Icons.Count)
+                {
+                    for (int i = icons.Count-1; i>= setting.Icons.Count; i--)
+                    {
+                        setting.Icons.Add(icons[i]);
+                        
+                    }
+                }
+                if (icons.Count< setting.Icons.Count)
+                {
+                    for (int i = icons.Count - 1; i >= setting.Icons.Count; i--)
+                    {
+                        setting.Icons.Remove(icons[i]);
+
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < setting.Icons.Count; i++)
+                {
+                    setting.Icons[i] = new SettingIcon { IconTag = "", IconUrl = "" };
+                }
             }
             _repository.Update(setting);
         }

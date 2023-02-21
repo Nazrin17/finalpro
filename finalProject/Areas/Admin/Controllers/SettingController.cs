@@ -20,14 +20,15 @@ public class SettingController : Controller
     public async Task<IActionResult> Index()
     {
         SettingGetDto getDto = await _service.Get();
+        if (getDto is null) return View();
         return View(getDto);
     }
-    public async Task<IActionResult> Create()
-    {
-        await _service.Create();
-        return Json("ok");
-    }
-    public async Task<IActionResult> Update(int id)
+    //public async Task<IActionResult> Create()
+    //{
+    //    await _service.Create();
+    //    return Json("ok");
+    //}
+    public async Task<IActionResult> Update()
     {
         SettingGetDto getDto = await _service.Get();
         if (getDto == null) return View();

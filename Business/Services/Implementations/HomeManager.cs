@@ -3,6 +3,7 @@ using Business.Services.Intefaces;
 using Core.Utilities;
 using Core.Utilities.Extentions;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,15 @@ namespace Business.Services.Implementations
         private readonly IHomeRepository _repository;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _env;
+        private readonly IActionContextAccessor _actionContextAccessor;
 
-        public HomeManager(IHomeRepository repository, IMapper mapper, IWebHostEnvironment env)
+
+        public HomeManager(IHomeRepository repository, IMapper mapper, IWebHostEnvironment env, IActionContextAccessor actionContextAccessor)
         {
             _repository = repository;
             _mapper = mapper;
             _env = env;
+            _actionContextAccessor = actionContextAccessor;
         }
 
         public async Task CreateAsync(HomePostDto postDto)
@@ -31,10 +35,12 @@ namespace Business.Services.Implementations
             await _repository.CreateAsync(home);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             Home home = await _repository.Get(h => h.Id == id);
+            if (home is null) return false;
             _repository.Delete(home);
+            return true;
         }
 
         public async Task<HomeGetDto> Get()
@@ -45,17 +51,17 @@ namespace Business.Services.Implementations
             return getDto;
         }
 
-        public  async Task UpdateAsync(HomeUpdateDto updateDto)
+        public  async Task<bool> UpdateAsync(HomeUpdateDto updateDto)
         {
             Home home = await _repository.Get(e => e.Id == updateDto.getDto.Id);
             updateDto.getDto = _mapper.Map<HomeGetDto>(home);
             if (updateDto.postDto.formFile != null)
             {
-                //if (!updateDto.postDto.formFile.ContentType.Contains("image"))
-                //{
-                //    ModelState.AddModelError("Formfile", "Please send image");
-                //    return View(updateDto);
-                //}
+                if (!updateDto.postDto.formFile.ContentType.Contains("image"))
+                {
+                   _actionContextAccessor.ActionContext.ModelState.AddModelError("", "Please send image");
+                    return false;
+                }
                 string imagename =updateDto.postDto.formFile.FileCreate(_env.WebRootPath, "assets/img");
                 Helper.FileDelete(_env.WebRootPath, "assets/img", home.Image);
                 home.Image = imagename;
@@ -63,6 +69,7 @@ namespace Business.Services.Implementations
             home.Title = updateDto.postDto.Title;
             home.Slogan = updateDto.postDto.Slogan;
             _repository.Update(home);
+            return true;
         }
     }
 }

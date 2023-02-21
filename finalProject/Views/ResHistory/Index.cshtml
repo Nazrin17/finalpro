@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+@model ShowDto
+<div class="row">
+    <div class=" grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Doctor Name</th>
+                                <th>Position</th>
+                                <th colspan="6" style="text-align:center">Reservation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                               @for (int i = 0; i < Model.ResGet.Count; i++)
+                                {
+                                    
+
+                                    <tr>
+                                        <td>@Model.ResGet[i].Doctor.Name</td>
+                                        <td>@Model.DoctorGet[i].Position.Name</td>
+                                        <td>@Model.ResGet[i].date</td>
+                                        @if (Model.ResGet[i].date.Date == DateTime.Today)
+                                        {
+                                            @foreach (var rez in Model.DoctorGet[i].rezervs)
+                                            {
+                                                @if (rez.UserEmail == Model.ResGet[i].UserEmail)
+                                                {
+                                                    
+                                                <td>@rez.Time</td>
+                                            <td>
+                                                    <a style="text-decoration:none " asp-action="Rezerv" asp-controller="Reservation" asp-route-user="@rez.UserEmail" asp-route-id="@Model.DoctorGet[i].Id" asp-route-time="@rez.Time">
+                                                    <p style="color:@(rez.Busy ? "red" : "dimgray")">
+                                                        @(
+                                                            rez.Busy ? "reserved" : "unreserved"
+                                                            )
+                                                    </p>
+                                                </a>
+                                            </td>
+                                                }
+                                        }
+                                            
+                                        }
+                                    </tr>
+                                }
+                            }
+                           
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -44,12 +44,15 @@ public class AboutController : Controller
             ModelState.AddModelError("Formfile", "please send image");
             return View(postDto);
         }
-        await _service.CreateAsync(postDto);
         return RedirectToAction(nameof(Index));
     }
     public async Task<IActionResult> Update(int id)
     {
         AboutGetDto getDto = await _service.Get();
+        if (getDto == null)
+        {
+            return NotFound();
+        }
         AboutUpdateDto updateDto = new AboutUpdateDto { getDto = getDto };
         return View(updateDto);
     }
@@ -62,12 +65,21 @@ public class AboutController : Controller
         {
             return View(updateDto);
         }
-        await _service.UpdateAsync(updateDto);
+      var result=  await _service.UpdateAsync(updateDto);
+        if (!result)
+        {
+            ModelState.AddModelError("", "Please send image");
+            return View(updateDto);
+        }
         return RedirectToAction(nameof(Index));
     }
     public async Task<IActionResult> Delete(int id)
     {
-        await _service.DeleteAsync(id);
+       var result=  await _service.DeleteAsync(id);
+        if (!result)
+        {
+            return NotFound();
+        }
         return RedirectToAction(nameof(Index));
     }
 }

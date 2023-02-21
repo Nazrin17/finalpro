@@ -22,18 +22,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (Model.Models != null)
+                            @if (Model != null)
                             {
-                                @foreach (var item in Model.Models)
+                                @if (Model.Models != null)
                                 {
+                                    @foreach (var item in Model.Models)
+                                    {
 
-                                    <tr>
-                                        <td>@item.Id</td>
-                                        <td> @item.Name</td>
-                                        <td><a asp-action="Update" asp-controller="position" asp-route-id="@item.Id"><i class="fa-solid fa-pen"></i></a></td>
-                                        <td><a asp-action="Delete" asp-controller="position" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a></td>
-                                    </tr>
+                                        <tr>
+                                            <td>@item.Id</td>
+                                            <td> @item.Name</td>
+                                            <td><a asp-action="Update" asp-controller="position" asp-route-id="@item.Id"><i class="fa-solid fa-pen"></i></a></td>
+                                            <td><a asp-action="Delete" asp-controller="position" asp-route-id="@item.Id"><i class="fa-solid fa-trash"></i></a></td>
+                                        </tr>
+                                    }
                                 }
+
                             }
                         </tbody>
                     </table>

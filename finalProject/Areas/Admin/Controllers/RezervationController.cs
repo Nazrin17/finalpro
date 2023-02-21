@@ -44,17 +44,19 @@ public class RezervationController : Controller
     }
     public async Task<IActionResult> Rezerv(int id, string time, string user)
     {
-        await _service.Reserv(id, time, user);
+      var result=  await _service.Reserv(id, time, user);
+        if (!result) return NotFound();
         return RedirectToAction(nameof(Index));
     }
     public async Task<IActionResult> Okei()
     {
-        await _service.Okei();
+      var result=  await _service.Okei();
         return RedirectToAction(nameof(Index));
     }
     public async Task<IActionResult> DeleteAll()
     {
         List<DoctorGetDto> docs = await _doctorService.GetAllAsync(d=>!d.IsDeleted);
+        if( docs is null) return NotFound();
         foreach (DoctorGetDto doc in docs)
         {
             foreach (var item in doc.rezervs)

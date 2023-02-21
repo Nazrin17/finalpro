@@ -15,8 +15,8 @@ namespace Business.Services.Intefaces
         Task<DoctorGetDto> GetbyId(int id);
         Task<DoctorGetDto> Get(Expression<Func<Doctor,bool>> exp,params string[] includes);
         Task CreateAsync(DoctorPostDto postDto);
-        Task UpdateAsync(DoctorUpdateDto updateDto);
-        Task DeleteAsync(int id);
+        Task<bool> UpdateAsync(DoctorUpdateDto updateDto);
+        Task<bool> DeleteAsync(int id);
         Task AddHistory(ResHistory history, int id);
     }
 }

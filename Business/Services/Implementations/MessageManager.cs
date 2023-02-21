@@ -26,11 +26,13 @@ namespace Business.Services.Implementations
             await _repository.CreateAsync(message);
         }
 
-        public  async Task DeleteAsync(int id)
+        public  async Task<bool> DeleteAsync(int id)
         {
             Message message = await _repository.Get(m => m.Id == id);
+            if (message == null) return false;
             message.IsDeleted = true;
             _repository.Update(message);
+            return true;
         }
 
         public async Task<List<MessageGetDto>> GetAllAsync(Expression<Func<Message, bool>> exp)
@@ -54,11 +56,13 @@ namespace Business.Services.Implementations
             return message;
         }
 
-        public async Task RestoreAsync(int id)
+        public async Task<bool> RestoreAsync(int id)
         {
             Message message = await _repository.Get(m => m.Id == id);
+            if (message == null) return false;
             message.IsDeleted = false;
             _repository.Update(message);
+            return true;
         }
     }
 }

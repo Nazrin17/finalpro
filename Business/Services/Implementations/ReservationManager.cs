@@ -21,9 +21,10 @@ namespace Business.Services.Implementations
             _doctorService = doctorService;
         }
 
-        public async Task Okei()
+        public async Task<bool> Okei()
         {
             List<DoctorGetDto> docs = await _doctorService.GetAllAsync(d=>!d.IsDeleted);
+            if (docs is null) return false;
             foreach (DoctorGetDto doc in docs)
             {
                 foreach (var item in doc.rezervs)
@@ -35,11 +36,13 @@ namespace Business.Services.Implementations
                 }
 
             }
+            return true;
         }
 
-        public async Task Reserv(int id, string time, string user)
+        public async Task<bool> Reserv(int id, string time, string user)
         {
             DoctorGetDto doc=await _doctorService.GetbyId(id);
+            if (doc is null) return false;
             foreach (var item in doc.rezervs)
             {
                 if (item.Time == time)
@@ -53,6 +56,7 @@ namespace Business.Services.Implementations
             };
             DoctorUpdateDto updateDto = new DoctorUpdateDto() { getDto = doc };
             await _doctorService.UpdateAsync(updateDto);
+            return true;
         }
     }
 }

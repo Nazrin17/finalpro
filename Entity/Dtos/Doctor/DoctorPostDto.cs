@@ -14,12 +14,11 @@ public class DoctorPostDto
     public int PositionId { get; set; }
     public Position? Position { get; set; }
     public List<Icon>? Icons { get; set; }
-    public List<string> Urls { get; set; }
-    public List<string> Tags { get; set; }
+    public List<string>? Urls { get; set; }
+    public List<string>? Tags { get; set; }
     public List<ResHistory>? history { get; set; }
-
     public List<Rezerv>? rezervs { get; set; }
-    public List<string> Times { get; set; }
+    public List<string>? Times { get; set; }
 
 }
 

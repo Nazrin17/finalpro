@@ -27,12 +27,12 @@ namespace Business.Services.Implementations
             _env = env;
         }
 
-        public async Task CreateAsync(AboutPostDto postDto)
+        public async Task<bool> CreateAsync(AboutPostDto postDto)
         {
-            //if (!postDto.formFile.ContentType.Contains("image"))
-            //{
-            //    return postDto;
-            //}
+            if (!postDto.formFile.ContentType.Contains("image"))
+            {
+                return false;
+            }
             About about = _mapper.Map<About>(postDto);
             about.Image = postDto.formFile.FileCreate(_env.WebRootPath, "assets/img");
             foreach (var item in postDto.Buttons)
@@ -40,13 +40,16 @@ namespace Business.Services.Implementations
                 about.Buttons.Add(item);
             }
             await _repository.CreateAsync(about);
+            return true;
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             About about = await _repository.Get(a => a.Id == id, "Buttons");
+            if(about == null) { return false; }
             Helper.FileDelete(_env.WebRootPath, "assets/img", about.Image);
             _repository.Delete(about);
+            return true;
         }
 
         public async Task<AboutGetDto> Get()
@@ -57,16 +60,15 @@ namespace Business.Services.Implementations
             return getDto;
         }
 
-        public async Task UpdateAsync(AboutUpdateDto updateDto)
+        public async Task<bool> UpdateAsync(AboutUpdateDto updateDto)
         {
             About about = await _repository.Get(e => e.Id == updateDto.getDto.Id, "Buttons");
             if (updateDto.aboutPost.formFile != null)
             {
-                //if (!updateDto.aboutPost.formFile.ContentType.Contains("image"))
-                //{
-                //    ModelState.AddModelError("Formfile", "Please send image");
-                //    return View(updateDto);
-                //}
+                if (!updateDto.aboutPost.formFile.ContentType.Contains("image"))
+                {
+                    return false;
+                }
                 string imagename = updateDto.aboutPost.formFile.FileCreate(_env.WebRootPath, "assets/img");
                 Helper.FileDelete(_env.WebRootPath, "assets/img", about.Image);
                 about.Image = imagename;
@@ -81,6 +83,7 @@ namespace Business.Services.Implementations
                 }
             }
             _repository.Update(about);
+            return true;
         }
     }
 }

@@ -12,8 +12,8 @@ namespace Business.Services.Intefaces
         Task<List<MessageGetDto>> GetAllAsync(Expression<Func<Message,bool>> exp);
         Task<List<MessageGetDto>> GetAllAsync();
         Task<Message> GetbyId(int id);
-        Task DeleteAsync(int id);
-        Task RestoreAsync(int id);
+        Task<bool> DeleteAsync(int id);
+        Task<bool> RestoreAsync(int id);
         Task CreateAsync(MessagePostDto postDto);
     }
 }

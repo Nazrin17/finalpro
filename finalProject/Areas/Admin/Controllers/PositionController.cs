@@ -20,9 +20,10 @@ public class PositionController : Controller
         _mapper = mapper;
     }
 
-    public  async Task<IActionResult> Index(int currentpage = 1, int take = 5)
+    public async Task<IActionResult> Index(int currentpage = 1, int take = 5)
     {
-        List<PositionGetDto> positions =  await _service.GetAllAsync();
+        List<PositionGetDto> positions = await _service.GetAllAsync();
+        if (positions == null) return View();
         List<PositionGetDto> getDtos = positions
                 .OrderByDescending(d => d.Id)
                 .Skip((currentpage - 1) * take)
@@ -50,24 +51,28 @@ public class PositionController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(PositionPostDto postDto)
     {
-     await   _service.CreateAsync(postDto);
+        if (!ModelState.IsValid) return View(postDto);
+        await _service.CreateAsync(postDto);
         return RedirectToAction(nameof(Index));
     }
     public async Task<IActionResult> Update(int id)
     {
-       PositionGetDto getDto= await _service.GetbyId(id);
+        PositionGetDto getDto = await _service.GetbyId(id);
+        if (getDto == null) return NotFound();
         PositionUpdateDto updateDto = new PositionUpdateDto { getDto = getDto };
         return View(updateDto);
     }
     [HttpPost]
     public async Task<IActionResult> Update(PositionUpdateDto updateDto)
     {
-        await _service.UpdateAsync(updateDto);
+      var result=  await _service.UpdateAsync(updateDto);
+        if (!result) return View(updateDto);
         return RedirectToAction(nameof(Index));
     }
     public async Task<IActionResult> Delete(int id)
     {
-        await _service.DeleteAsync(id);
+       var result= await _service.DeleteAsync(id);
+        if (!result) return NotFound();
         return RedirectToAction(nameof(Index));
     }
 }

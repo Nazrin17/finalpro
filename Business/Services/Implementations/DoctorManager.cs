@@ -6,11 +6,14 @@ using Core.Utilities.Extentions;
 using Entities.Concrete.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 
 namespace Business.Services.Implementations
@@ -22,10 +25,11 @@ namespace Business.Services.Implementations
         private readonly IPositionRepository _position;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _env;
+        private readonly IActionContextAccessor _actionContextAccessor;
         private readonly RoleManager<IdentityRole> _role;
         private readonly UserManager<AppUser> _userManager;
 
-        public DoctorManager(IDoctorRepository repository, IPositionRepository position, IMapper mapper, IWebHostEnvironment env, UserManager<AppUser> userManager, RoleManager<IdentityRole> role)
+        public DoctorManager(IDoctorRepository repository, IPositionRepository position, IMapper mapper, IWebHostEnvironment env, UserManager<AppUser> userManager, RoleManager<IdentityRole> role, IActionContextAccessor actionContextAccessor)
         {
             _repository = repository;
             _position = position;
@@ -33,6 +37,7 @@ namespace Business.Services.Implementations
             _env = env;
             _userManager = userManager;
             _role = role;
+            _actionContextAccessor = actionContextAccessor;
         }
 
         public async Task AddHistory(ResHistory history,int id)
@@ -79,15 +84,16 @@ namespace Business.Services.Implementations
             var result2 = await _userManager.AddToRoleAsync(user, "doctor");
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             Doctor doctor = await _repository.Get(a => a.Id == id, "Icons", "rezervs", "Position");
-            //       if (doctor == null) { return NotFound(); };
+                  if (doctor == null) { return false; };
             AppUser user = await _userManager.FindByNameAsync(doctor.Email);
             await _userManager.DeleteAsync(user);
              Helper.FileDelete(_env.WebRootPath, "assets/img", doctor.Image);
             doctor.IsDeleted = true;
             _repository.Update(doctor);
+            return true;
         }
 
         public async Task<DoctorGetDto> Get(Expression<Func<Doctor, bool>> exp, params string[] includes)
@@ -118,28 +124,28 @@ namespace Business.Services.Implementations
             return getDto;
         }
 
-        public async Task UpdateAsync(DoctorUpdateDto updateDto)
+        public async Task<bool> UpdateAsync(DoctorUpdateDto updateDto)
         {
             Doctor doctor = await _repository.Get(e => e.Id == updateDto.getDto.Id, "Icons", "rezervs", "Position");
             if (updateDto.postDto == null)
             {
                 doctor.rezervs = updateDto.getDto.rezervs;
                  _repository.Update(doctor);
-                return;
+                return true;
             };
 
             updateDto.getDto = _mapper.Map<DoctorGetDto>(doctor);
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(updateDto);
-            //}
+            if (!_actionContextAccessor.ActionContext.ModelState.IsValid)
+            {
+                return false;
+            }
             if (updateDto.postDto.formFile != null)
             {
-                //if (!updateDto.postDto.formFile.ContentType.Contains("image"))
-                //{
-                //    ModelState.AddModelError("Formfile", "Please send image");
-                //    return View(updateDto);
-                //}
+                if (!updateDto.postDto.formFile.ContentType.Contains("image"))
+                {
+                    _actionContextAccessor.ActionContext.ModelState.AddModelError("", "Please send image");
+                    return false;
+                }
                 string imagename = updateDto.postDto.formFile.FileCreate(_env.WebRootPath, "assets/img");
                Helper.FileDelete(_env.WebRootPath, "assets/img", doctor.Image);
                 doctor.Image = imagename;
@@ -170,6 +176,29 @@ namespace Business.Services.Implementations
                         doctor.Icons.Remove(doctor.Icons[i]);
                     }
                 }
+                if (icons.Count > doctor.Icons.Count)
+                {
+                    for (int i = doctor.Icons.Count; i <icons.Count; i++)
+                    {
+                        doctor.Icons.Add(icons[i]);
+
+                    }
+                }
+                if (icons.Count < doctor.Icons.Count)
+                {
+                    for (int i = icons.Count - 1; i >= doctor.Icons.Count; i--)
+                    {
+                        doctor.Icons.Remove(icons[i]);
+
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < doctor.Icons.Count; i++)
+                {
+                    doctor.Icons[i] = new Icon { IconTag = "", IconUrl = "" };
+                }
             }
             if (updateDto.postDto.Times != null)
             {
@@ -189,8 +218,36 @@ namespace Business.Services.Implementations
                         doctor.rezervs.Remove(doctor.rezervs[i]);
                     }
                 }
+                if (rezervs.Count > doctor.rezervs.Count)
+                {
+                    for (int i = doctor.rezervs.Count; i < rezervs.Count; i++)
+                    {
+                        doctor.rezervs.Add(rezervs[i]);
+
+                    }
+                }
+                if (rezervs.Count < doctor.rezervs.Count)
+                {
+                    for (int i = 0; i < doctor.rezervs.Count; i++)
+                    {
+                        if (rezervs[i] != doctor.rezervs[i])
+                        {
+                            doctor.rezervs.Remove(doctor.rezervs[i]);
+                        }
+                    }
+                    //for (int i = rezervs.Count - 1; i >= doctor.rezervs.Count; i--)
+                    //{
+                    //    doctor.rezervs.Remove(rezervs[i]);
+
+                    //}
+                }
+            }
+            else
+            {
+                doctor.rezervs = null;
             }
             _repository.Update(doctor);
+            return true;
         }
     }
 }

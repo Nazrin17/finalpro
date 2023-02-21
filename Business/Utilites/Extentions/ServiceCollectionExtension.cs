@@ -5,6 +5,7 @@ using DAL;
 using DAL.Repositories.Implementations;
 using DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -65,6 +66,7 @@ namespace Business.Utilites.Extentions
             services.AddScoped<ISettingService, SettingManager>();
             services.AddScoped<IReservationService, ReservationManager>();
             services.AddScoped<IResHistoryService, ResHistoryManager>();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             return services;
         }
     }

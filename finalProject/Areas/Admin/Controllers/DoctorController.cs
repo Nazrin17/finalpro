@@ -53,11 +53,13 @@ public class DoctorController : Controller
     {
         if (!ModelState.IsValid)
         {
+            ViewBag.Positions = await _position.GetAllAsync();
             return View();
         }
         if (!postDto.formFile.ContentType.Contains("image"))
         {
             ModelState.AddModelError("Formfile", "please send image");
+            ViewBag.Positions = await _position.GetAllAsync();
             return View(postDto);
         }
         await _service.CreateAsync(postDto);
@@ -66,6 +68,7 @@ public class DoctorController : Controller
     public async Task<IActionResult> Update(int id)
     {
         DoctorGetDto getDto = await _service.GetbyId(id);
+        if (getDto == null) return NotFound();
         if (getDto.IsDeleted == true) { return NotFound(); }
         DoctorUpdateDto updateDto = new DoctorUpdateDto { getDto = getDto };
         ViewBag.Positions = await _position.GetAllAsync();
@@ -74,12 +77,19 @@ public class DoctorController : Controller
     [HttpPost]
     public async Task<IActionResult> Update(DoctorUpdateDto updateDto)
     {
-        await _service.UpdateAsync(updateDto);
+       var result= await _service.UpdateAsync(updateDto);
+        if (!result)
+        {
+            ViewBag.Positions = await _position.GetAllAsync();
+
+            return View(updateDto);
+        }
         return RedirectToAction(nameof(Index));
     }
     public async Task<IActionResult> Delete(int id)
     {
-        await _service.DeleteAsync(id);
+      var result=  await _service.DeleteAsync(id);
+        if(!result) return NotFound();
         return RedirectToAction(nameof(Index));
     }
     public async Task<IActionResult> Detail(int id)
@@ -113,6 +123,7 @@ public class DoctorController : Controller
     public async Task<IActionResult> History(int currentpage = 1, int take = 5)
     {
         List<ResGetDto> getDtos = await _history.GetAllAsync();
+        if(getDtos==null) return View();
         getDtos = getDtos
                .OrderByDescending(d => d.Id)
                .Skip((currentpage - 1) * take)

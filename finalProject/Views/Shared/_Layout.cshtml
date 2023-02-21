@@ -39,7 +39,7 @@
             <div class="row">
                 <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
                     <div class="d-inline-flex align-items-center">
-                        <a class="text-decoration-none text-body pe-3" href=""><i class="bi bi-telephone me-2"></i> @Settingg.Get().Result.Phone </a>
+                        <a class="text-decoration-none text-body pe-3" href=""><i class="bi bi-telephone me-2"></i>  @Settingg.Get().Result.Phone </a>
                         <span class="text-body">|</span>
                         <a class="text-decoration-none text-body px-3" href=""><i class="bi bi-envelope me-2"></i> @Settingg.Get().Result.Email</a>
                     </div>
@@ -98,6 +98,12 @@
                                 }
                             </div>
                         </div>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                        <a asp-action="Index" asp-controller="Reshistory" class="nav-item nav-link">Reservation History</a>
+                            
+                        }
+
                     </div>
                 </div>
             </nav>

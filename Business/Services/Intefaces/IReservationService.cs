@@ -8,7 +8,7 @@ namespace Business.Services.Intefaces
 {
     public interface IReservationService
     {
-        Task Reserv(int id, string time, string user);
-        Task Okei();
+        Task<bool> Reserv(int id, string time, string user);
+        Task<bool> Okei();
     }
 }

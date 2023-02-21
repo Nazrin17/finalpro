@@ -39,7 +39,8 @@ public class MessageController : Controller
     }
     public async Task<IActionResult> Delete(int id)
     {
-        await _service.DeleteAsync(id);
+      var result=  await _service.DeleteAsync(id);
+        if (!result) return NotFound();
         return RedirectToAction(nameof(Index));
     }
     public async Task<IActionResult> Deleted()
@@ -50,7 +51,8 @@ public class MessageController : Controller
     }
     public async Task<IActionResult> Restore(int id)
     {
-        await _service.RestoreAsync(id);
+      var result=  await _service.RestoreAsync(id);
+        if (!result) return NotFound();
         return RedirectToAction(nameof(Deleted));
     }
 

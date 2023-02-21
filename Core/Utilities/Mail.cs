@@ -13,7 +13,7 @@ namespace Core.Utilities
         public static  void SendMessage( string email,string subject,string body)
         {
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("medicalhospital2020@gmail.com");
+            mail.From = new MailAddress("medicallhospitall@gmail.com");
             mail.To.Add(new MailAddress(email));
             mail.Subject = subject;
             mail.Body = body;
@@ -22,7 +22,7 @@ namespace Core.Utilities
             smtp.Port = 587;
             smtp.Host = "smtp.gmail.com";
             smtp.EnableSsl = true;
-            smtp.Credentials = new NetworkCredential("medicalhospital2020@gmail.com", "tkdsqqyuoxrnlhot");
+            smtp.Credentials = new NetworkCredential("medicallhospitall@gmail.com", "lztluawrqthzoytx");
             smtp.Send(mail);
         }
     }

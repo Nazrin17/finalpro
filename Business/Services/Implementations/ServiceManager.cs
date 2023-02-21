@@ -31,10 +31,12 @@ namespace Business.Services.Implementations
             await _repository.CreateAsync(service);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             Service service = await _repository.Get(a => a.Id == id);
+            if (service is null) return false;
             _repository.Delete(service);
+            return true;
         }
 
         public async Task<List<ServiceGetDto>> GetAllAsync()
@@ -51,9 +53,10 @@ namespace Business.Services.Implementations
             return getDto;
         }
 
-        public async Task UpdateAsync(ServiceUpdateDto updateDto)
+        public async Task<bool> UpdateAsync(ServiceUpdateDto updateDto)
         {
             Service service = await _repository.Get(e => e.Id == updateDto.getDto.Id);
+            if (service is null) return false;
             updateDto.getDto = _mapper.Map<ServiceGetDto>(service);
             service.Title = updateDto.postDto.Title;
             service.Description = updateDto.postDto.Description;
@@ -63,6 +66,7 @@ namespace Business.Services.Implementations
                 service.IconUrl = updateDto.postDto.IconUrl;
             }
             _repository.Update(service);
+            return true;
         }
     }
 }

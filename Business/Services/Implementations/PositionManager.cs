@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Business.Services.Intefaces;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,13 @@ namespace Business.Services.Implementations
     {
         private readonly IPositionRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IActionContextAccessor _actionContextAccessor;
 
-        public PositionManager(IPositionRepository repository, IMapper mapper)
+        public PositionManager(IPositionRepository repository, IMapper mapper, IActionContextAccessor actionContextAccessor)
         {
             _repository = repository;
             _mapper = mapper;
+            _actionContextAccessor = actionContextAccessor;
         }
 
         public async Task CreateAsync(PositionPostDto postDto)
@@ -25,10 +28,12 @@ namespace Business.Services.Implementations
             await _repository.CreateAsync(position);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             Position position=await _repository.Get(p=>p.Id==id);
+            if(position is null) return false;
              _repository.Delete(position);
+            return true;
         }
 
         public async Task<List<PositionGetDto>> GetAllAsync()
@@ -45,16 +50,18 @@ namespace Business.Services.Implementations
             return getDto;
         }
 
-        public  async Task UpdateAsync(PositionUpdateDto updateDto)
+        public  async Task<bool> UpdateAsync(PositionUpdateDto updateDto)
         {
             Position position = await _repository.Get(e => e.Id == updateDto.getDto.Id);
+            if (position is null) return false;
             updateDto.getDto = _mapper.Map<PositionGetDto>(position);
             position.Name = updateDto.postDto.Name;
-            //if (!ModelState.IsValid)
-            //{
-            //    return View(updateDto);
-            //}
+            if (!_actionContextAccessor.ActionContext.ModelState.IsValid)
+            {
+                return false;
+            }
             _repository.Update(position);
+            return true;
         }
     }
 }

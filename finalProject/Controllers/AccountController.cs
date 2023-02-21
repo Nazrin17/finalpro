@@ -54,8 +54,9 @@ namespace finaProject.Controllers
                 return View(register);
             }
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(newuser);
-            string link = Url.Action(nameof(Verify), "Account", new {email=newuser.Email,token=token},Request.Scheme,Request.Host.ToString());
-            Mail.SendMessage(newuser.Email, "Verify email", link);
+            string link = Url.Action(nameof(Verify), "Account", new { email = newuser.Email, token = token }, Request.Scheme, Request.Host.ToString());
+
+            Mail.SendMessage(newuser.Email, "Verify Email",link);
             var result2 = await _userManager.AddToRoleAsync(newuser, "user");
             if (!result2.Succeeded)
             {

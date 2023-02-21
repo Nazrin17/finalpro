@@ -11,7 +11,7 @@ namespace Business.Services.Intefaces
         Task<List<PositionGetDto>> GetAllAsync();
         Task<PositionGetDto> GetbyId(int id);
         Task CreateAsync(PositionPostDto postDto);
-        Task UpdateAsync(PositionUpdateDto updateDto);
-        Task DeleteAsync(int id);
+        Task<bool> UpdateAsync(PositionUpdateDto updateDto);
+        Task<bool> DeleteAsync(int id);
     }
 }

@@ -10,7 +10,7 @@ namespace Business.Services.Intefaces
     {
         Task<HomeGetDto> Get();
         Task CreateAsync(HomePostDto postDto);
-        Task UpdateAsync(HomeUpdateDto updateDto);
-        Task DeleteAsync(int id);
+        Task<bool> UpdateAsync(HomeUpdateDto updateDto);
+        Task<bool> DeleteAsync(int id);
     }
 }
